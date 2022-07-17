@@ -241,7 +241,7 @@ fn recurse_build<'tcx>(
         ExprKind::Assign { .. } | ExprKind::AssignOp { .. } => {
             error(GenericConstantTooComplexSub::AssignNotSupported(node.span))?
         }
-        ExprKind::Closure { .. } | ExprKind::Return { .. } => {
+        ExprKind::Closure { .. } | ExprKind::Return { .. } | ExprKind::Become { .. } => {
             error(GenericConstantTooComplexSub::ClosureAndReturnNotSupported(node.span))?
         }
         // let expressions imply control flow
@@ -336,6 +336,7 @@ impl<'a, 'tcx> IsThirPolymorphic<'a, 'tcx> {
             | thir::ExprKind::Break { .. }
             | thir::ExprKind::Continue { .. }
             | thir::ExprKind::Return { .. }
+            | thir::ExprKind::Become { .. }
             | thir::ExprKind::Array { .. }
             | thir::ExprKind::Tuple { .. }
             | thir::ExprKind::Adt(_)

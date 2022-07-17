@@ -901,6 +901,9 @@ pub fn walk_expr<'a, V: Visitor<'a>>(visitor: &mut V, expression: &'a Expr) {
         ExprKind::Ret(optional_expression) => {
             walk_list!(visitor, visit_expr, optional_expression);
         }
+        ExprKind::Become(expr) => {
+            visitor.visit_expr(expr);
+        }
         ExprKind::Yeet(optional_expression) => {
             walk_list!(visitor, visit_expr, optional_expression);
         }

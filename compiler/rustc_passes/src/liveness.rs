@@ -467,6 +467,7 @@ impl<'tcx> Visitor<'tcx> for IrMaps<'tcx> {
             | hir::ExprKind::Lit(_)
             | hir::ExprKind::ConstBlock(..)
             | hir::ExprKind::Ret(..)
+            | hir::ExprKind::Become(..)
             | hir::ExprKind::Block(..)
             | hir::ExprKind::Assign(..)
             | hir::ExprKind::AssignOp(..)
@@ -965,6 +966,8 @@ impl<'a, 'tcx> Liveness<'a, 'tcx> {
                 self.propagate_through_opt_expr(o_e.as_deref(), self.exit_ln)
             }
 
+            hir::ExprKind::Become(ref expr) => self.propagate_through_expr(expr, self.exit_ln),
+
             hir::ExprKind::Break(label, ref opt_expr) => {
                 // Find which label this break jumps to
                 let target = match label.target_id {
@@ -1412,6 +1415,7 @@ fn check_expr<'tcx>(this: &mut Liveness<'_, 'tcx>, expr: &'tcx Expr<'tcx>) {
         | hir::ExprKind::DropTemps(..)
         | hir::ExprKind::Unary(..)
         | hir::ExprKind::Ret(..)
+        | hir::ExprKind::Become(..)
         | hir::ExprKind::Break(..)
         | hir::ExprKind::Continue(..)
         | hir::ExprKind::Lit(_)

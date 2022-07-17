@@ -1,0 +1,8 @@
+error: become must always call a function
+  --> $DIR/wrong-expr.rs:4:12
+   |
+LL |     become b() + 1;
+   |            ^^^^^^^ this is not a function call
+
+error: aborting due to previous error
+

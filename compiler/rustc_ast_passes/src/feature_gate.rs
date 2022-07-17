@@ -414,6 +414,14 @@ impl<'a> Visitor<'a> for PostExpansionVisitor<'a> {
             ast::ExprKind::TryBlock(_) => {
                 gate_feature_post!(&self, try_blocks, e.span, "`try` expression is experimental");
             }
+            ast::ExprKind::Become(_) => {
+                gate_feature_post!(
+                    &self,
+                    become_stmt,
+                    e.span,
+                    "`become` statement is experimental"
+                );
+            }
             _ => {}
         }
         visit::walk_expr(self, e)

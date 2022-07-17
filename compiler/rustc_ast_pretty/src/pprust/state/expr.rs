@@ -522,6 +522,11 @@ impl<'a> State<'a> {
                     self.print_expr_maybe_paren(expr, parser::PREC_JUMP);
                 }
             }
+            ast::ExprKind::Become(expr) => {
+                self.word("become");
+                self.space();
+                self.print_expr_maybe_paren(expr, parser::PREC_JUMP);
+            }
             ast::ExprKind::Yeet(result) => {
                 self.word("do");
                 self.word(" ");

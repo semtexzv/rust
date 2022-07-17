@@ -302,7 +302,7 @@ impl<'v> hir_visit::Visitor<'v> for StatCollector<'v> {
             [
                 ConstBlock, Array, Call, MethodCall, Tup, Binary, Unary, Lit, Cast, Type,
                 DropTemps, Let, If, Loop, Match, Closure, Block, Assign, AssignOp, Field, Index,
-                Path, AddrOf, Break, Continue, Ret, InlineAsm, Struct, Repeat, Yield, Err
+                Path, AddrOf, Break, Continue, Ret, Become, InlineAsm, Struct, Repeat, Yield, Err
             ]
         );
         hir_visit::walk_expr(self, e)
@@ -567,7 +567,7 @@ impl<'v> ast_visit::Visitor<'v> for StatCollector<'v> {
             [
                 Array, ConstBlock, Call, MethodCall, Tup, Binary, Unary, Lit, Cast, Type, Let,
                 If, While, ForLoop, Loop, Match, Closure, Block, Async, Await, TryBlock, Assign,
-                AssignOp, Field, Index, Range, Underscore, Path, AddrOf, Break, Continue, Ret,
+                AssignOp, Field, Index, Range, Underscore, Path, AddrOf, Break, Continue, Ret, Become,
                 InlineAsm, FormatArgs, MacCall, Struct, Repeat, Paren, Try, Yield, Yeet, IncludedBytes, Err
             ]
         );

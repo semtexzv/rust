@@ -318,6 +318,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                 }
             }
             ExprKind::Ret(ref expr_opt) => self.check_expr_return(expr_opt.as_deref(), expr),
+            ExprKind::Become(ref become_expr) => self.check_expr_become(become_expr, expr),
             ExprKind::Let(let_expr) => self.check_expr_let(let_expr),
             ExprKind::Loop(body, _, source, _) => {
                 self.check_expr_loop(body, source, expected, expr)
@@ -872,6 +873,29 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                 *cause = new_cause;
             }
         }
+    }
+
+    pub(crate) fn check_expr_become(
+        &self,
+        expr: &'tcx hir::Expr<'tcx>,
+        _base_expr: &'tcx hir::Expr<'tcx>,
+    ) -> Ty<'tcx> {
+        // FIXME: Checks
+        // 1: That the the expr is a func call
+        // 2: That the calling context is a function, not a closure
+        // 3: That the function arguments & ret type match
+
+        match &expr.kind {
+            hir::ExprKind::Call(..) => {}
+            _ => {
+                let mut err =
+                    self.tcx.sess.struct_span_err(expr.span, "become must always call a function");
+                err.span_label(expr.span, "this is not a function call");
+                err.emit();
+            }
+        }
+        // Defer other type checking to return. might not be totally correct, but it'll work for now
+        self.check_expr_return(Some(expr), _base_expr)
     }
 
     pub(crate) fn check_lhs_assignable(

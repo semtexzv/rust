@@ -1270,6 +1270,7 @@ impl Expr {
             ExprKind::Break(..) => ExprPrecedence::Break,
             ExprKind::Continue(..) => ExprPrecedence::Continue,
             ExprKind::Ret(..) => ExprPrecedence::Ret,
+            ExprKind::Become(..) => ExprPrecedence::Ret,
             ExprKind::InlineAsm(..) => ExprPrecedence::InlineAsm,
             ExprKind::MacCall(..) => ExprPrecedence::Mac,
             ExprKind::Struct(..) => ExprPrecedence::Struct,
@@ -1465,6 +1466,8 @@ pub enum ExprKind {
     Continue(Option<Label>),
     /// A `return`, with an optional value to be returned.
     Ret(Option<P<Expr>>),
+    /// A `become` with required value to be returned
+    Become(P<Expr>),
 
     /// Output of the `asm!()` macro.
     InlineAsm(P<InlineAsm>),

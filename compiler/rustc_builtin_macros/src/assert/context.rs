@@ -308,6 +308,7 @@ impl<'cx, 'a> Context<'cx, 'a> {
             | ExprKind::Match(_, _)
             | ExprKind::Path(_, _)
             | ExprKind::Ret(_)
+            | ExprKind::Become(_)
             | ExprKind::Try(_)
             | ExprKind::TryBlock(_)
             | ExprKind::Type(_, _)

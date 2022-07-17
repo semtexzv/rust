@@ -411,6 +411,7 @@ symbols! {
         avx512f,
         await_macro,
         bang,
+        become_stmt,
         begin_panic,
         bench,
         bin,

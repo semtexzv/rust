@@ -146,6 +146,7 @@ impl<'a> Sugg<'a> {
             | hir::ExprKind::Path(..)
             | hir::ExprKind::Repeat(..)
             | hir::ExprKind::Ret(..)
+            | hir::ExprKind::Become(..)
             | hir::ExprKind::Struct(..)
             | hir::ExprKind::Tup(..)
             | hir::ExprKind::Err(_) => Sugg::NonParen(get_snippet(expr.span)),
@@ -208,6 +209,7 @@ impl<'a> Sugg<'a> {
             | ast::ExprKind::Path(..)
             | ast::ExprKind::Repeat(..)
             | ast::ExprKind::Ret(..)
+            | ast::ExprKind::Become(..)
             | ast::ExprKind::Yeet(..)
             | ast::ExprKind::FormatArgs(..)
             | ast::ExprKind::Struct(..)

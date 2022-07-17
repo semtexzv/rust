@@ -1400,6 +1400,9 @@ impl<'a> Parser<'a> {
             self.parse_try_block(lo)
         } else if self.eat_keyword(kw::Return) {
             self.parse_expr_return()
+        } else if self.eat_keyword(kw::Become) {
+            self.sess.gated_spans.gate(sym::become_stmt, self.prev_token.span);
+            self.parse_become_expr()
         } else if self.eat_keyword(kw::Continue) {
             self.parse_expr_continue(lo)
         } else if self.eat_keyword(kw::Break) {
@@ -1695,6 +1698,13 @@ impl<'a> Parser<'a> {
     fn parse_expr_return(&mut self) -> PResult<'a, P<Expr>> {
         let lo = self.prev_token.span;
         let kind = ExprKind::Ret(self.parse_expr_opt()?);
+        let expr = self.mk_expr(lo.to(self.prev_token.span), kind);
+        self.maybe_recover_from_bad_qpath(expr)
+    }
+
+    fn parse_become_expr(&mut self) -> PResult<'a, P<Expr>> {
+        let lo = self.prev_token.span;
+        let kind = ExprKind::Become(self.parse_expr()?);
         let expr = self.mk_expr(lo.to(self.prev_token.span), kind);
         self.maybe_recover_from_bad_qpath(expr)
     }
