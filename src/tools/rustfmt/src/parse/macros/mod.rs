@@ -166,7 +166,7 @@ pub(crate) fn parse_expr(
     parser.parse_expr().ok()
 }
 
-const RUST_KW: [Symbol; 59] = [
+const RUST_KW: [Symbol; 60] = [
     kw::PathRoot,
     kw::DollarCrate,
     kw::Underscore,
@@ -194,6 +194,7 @@ const RUST_KW: [Symbol; 59] = [
     kw::Pub,
     kw::Ref,
     kw::Return,
+    kw::Become,
     kw::SelfLower,
     kw::SelfUpper,
     kw::Static,
