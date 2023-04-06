@@ -118,6 +118,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                     span_bug!(terminator.source_info.span, "evaluating this call made no progress");
                 }
             }
+            TailCall { .. } => panic!(),
 
             Drop { place, target, unwind } => {
                 let frame = self.frame();

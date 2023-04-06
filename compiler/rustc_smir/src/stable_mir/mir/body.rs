@@ -35,6 +35,10 @@ pub enum Terminator {
         target: Option<usize>,
         cleanup: Option<usize>,
     },
+    TailCall {
+        func: Operand,
+        args: Vec<Operand>,
+    },
     Assert {
         cond: Operand,
         expected: bool,

@@ -145,6 +145,10 @@ fn rustc_terminator_to_terminator(
         Resume => Terminator::Resume,
         Abort => Terminator::Abort,
         Return => Terminator::Return,
+        TailCall { func, args, .. } => Terminator::TailCall {
+            func: rustc_op_to_op(func),
+            args: args.iter().map(|a| rustc_op_to_op(a)).collect(),
+        },
         Unreachable => Terminator::Unreachable,
         Drop { .. } => todo!(),
         Call { .. } => todo!(),

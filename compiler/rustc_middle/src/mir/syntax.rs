@@ -637,6 +637,19 @@ pub enum TerminatorKind<'tcx> {
         fn_span: Span,
     },
 
+    /// A tail-call resulting from `become` statement. Conceptually it's a combination
+    /// of Call + Return, but the implementation details guarantee that there is no cleanup to be done
+    /// after this, so the codegen can emit just jumps instead of recursive function calls.
+    ///
+    /// Type of `func` must be a function pointer or a fn(...) type.
+    ///
+    /// Also, any expected cleanup must be performed before this terminator,
+    TailCall {
+        func: Operand<'tcx>,
+        args: Vec<Operand<'tcx>>,
+        fn_span: Span,
+    },
+
     /// Evaluates the operand, which must have type `bool`. If it is not equal to `expected`,
     /// initiates a panic. Initiating a panic corresponds to a `Call` terminator with some
     /// unspecified constant as the function to call, all the operands stored in the `AssertMessage`

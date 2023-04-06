@@ -128,6 +128,7 @@ where
             TerminatorKind::Abort
             | TerminatorKind::Assert { .. }
             | TerminatorKind::Call { .. }
+            | TerminatorKind::TailCall { .. }
             | TerminatorKind::FalseEdge { .. }
             | TerminatorKind::FalseUnwind { .. }
             | TerminatorKind::GeneratorDrop

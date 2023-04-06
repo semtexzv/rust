@@ -174,6 +174,9 @@ impl<'mir, 'tcx> crate::GenKillAnalysis<'tcx> for MaybeRequiresStorage<'mir, 'tc
             TerminatorKind::Call { destination, .. } => {
                 trans.gen(destination.local);
             }
+            TerminatorKind::TailCall { .. } => {
+                panic!("No idea");
+            }
 
             // Note that we do *not* gen the `resume_arg` of `Yield` terminators. The reason for
             // that is that a `yield` will return from the function, and `resume_arg` is written
@@ -227,6 +230,9 @@ impl<'mir, 'tcx> crate::GenKillAnalysis<'tcx> for MaybeRequiresStorage<'mir, 'tc
             // destination here, and then gen it again in `call_return_effect`.
             TerminatorKind::Call { destination, .. } => {
                 trans.kill(destination.local);
+            }
+            TerminatorKind::TailCall { .. } => {
+                panic!()
             }
 
             // The same applies to InlineAsm outputs.

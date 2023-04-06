@@ -467,6 +467,7 @@ macro_rules! make_mir_visitor {
                     TerminatorKind::Unreachable |
                     TerminatorKind::FalseEdge { .. } |
                     TerminatorKind::FalseUnwind { .. } => {}
+                    TerminatorKind::TailCall { .. } => unimplemented!(),
 
                     TerminatorKind::Return => {
                         // `return` logically moves from the return place `_0`. Note that the place

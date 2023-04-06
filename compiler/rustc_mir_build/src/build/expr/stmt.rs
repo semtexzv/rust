@@ -99,6 +99,12 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
                 BreakableTarget::Return,
                 source_info,
             ),
+            ExprKind::Become { value } => this.break_scope(
+                block,
+                Some(&this.thir[value]),
+                BreakableTarget::Become,
+                source_info,
+            ),
             _ => {
                 assert!(
                     statement_scope.is_some(),
@@ -121,10 +127,10 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
                         loop {
                             match expr.kind {
                                 ExprKind::Block { block }
-                                    if let Some(nested_expr) = this.thir[block].expr =>
-                                {
-                                    expr = &this.thir[nested_expr];
-                                }
+                                if let Some(nested_expr) = this.thir[block].expr =>
+                                    {
+                                        expr = &this.thir[nested_expr];
+                                    }
                                 ExprKind::Scope { value: nested_expr, .. } => {
                                     expr = &this.thir[nested_expr];
                                 }

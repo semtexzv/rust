@@ -1300,6 +1300,9 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
                 fn_span,
                 mergeable_succ(),
             ),
+            mir::TerminatorKind::TailCall { .. } => {
+                panic!("Unimplemented tail calls in ssa backend")
+            }
             mir::TerminatorKind::GeneratorDrop | mir::TerminatorKind::Yield { .. } => {
                 bug!("generator ops in codegen")
             }

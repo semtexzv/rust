@@ -286,6 +286,7 @@ pub fn cleanup_kinds(mir: &mir::Body<'_>) -> IndexVec<mir::BasicBlock, CleanupKi
                 | TerminatorKind::Resume
                 | TerminatorKind::Abort
                 | TerminatorKind::Return
+                | TerminatorKind::TailCall { .. }
                 | TerminatorKind::GeneratorDrop
                 | TerminatorKind::Unreachable
                 | TerminatorKind::SwitchInt { .. }

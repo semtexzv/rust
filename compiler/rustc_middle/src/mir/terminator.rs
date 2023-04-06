@@ -141,6 +141,8 @@ impl<'tcx> TerminatorKind<'tcx> {
             | Return
             | Unreachable
             | Call { target: None, cleanup: None, .. }
+            // TODO: is this correct ?
+            | TailCall { .. }
             | InlineAsm { destination: None, cleanup: None, .. } => {
                 None.into_iter().chain((&[]).into_iter().copied())
             }
@@ -181,6 +183,7 @@ impl<'tcx> TerminatorKind<'tcx> {
             | Return
             | Unreachable
             | Call { target: None, cleanup: None, .. }
+            | TailCall { .. }
             | InlineAsm { destination: None, cleanup: None, .. } => None.into_iter().chain(&mut []),
             Goto { target: ref mut t }
             | Call { target: None, cleanup: Some(ref mut t), .. }
@@ -214,6 +217,7 @@ impl<'tcx> TerminatorKind<'tcx> {
             | TerminatorKind::Resume
             | TerminatorKind::Abort
             | TerminatorKind::Return
+            | TerminatorKind::TailCall { .. }
             | TerminatorKind::Unreachable
             | TerminatorKind::GeneratorDrop
             | TerminatorKind::Yield { .. }
@@ -233,6 +237,7 @@ impl<'tcx> TerminatorKind<'tcx> {
             | TerminatorKind::Resume
             | TerminatorKind::Abort
             | TerminatorKind::Return
+            | TerminatorKind::TailCall { .. }
             | TerminatorKind::Unreachable
             | TerminatorKind::GeneratorDrop
             | TerminatorKind::Yield { .. }
@@ -314,6 +319,9 @@ impl<'tcx> TerminatorKind<'tcx> {
                 }
                 write!(fmt, ")")
             }
+            TailCall { func, args , .. } => {
+                panic!("Tail call unimplemented: {func:?}, {args:?}")
+            },
             Assert { cond, expected, msg, .. } => {
                 write!(fmt, "assert(")?;
                 if !expected {
@@ -392,6 +400,7 @@ impl<'tcx> TerminatorKind<'tcx> {
             Call { target: Some(_), cleanup: None, .. } => vec!["return".into()],
             Call { target: None, cleanup: Some(_), .. } => vec!["unwind".into()],
             Call { target: None, cleanup: None, .. } => vec![],
+            TailCall { .. } => unimplemented!(),
             Yield { drop: Some(_), .. } => vec!["resume".into(), "drop".into()],
             Yield { drop: None, .. } => vec!["resume".into()],
             Drop { unwind: None, .. } => {

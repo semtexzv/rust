@@ -267,6 +267,7 @@ pub fn terminator_kind_name(term: &Terminator<'_>) -> &'static str {
         Unreachable => "Unreachable",
         Drop { .. } => "Drop",
         Call { .. } => "Call",
+        TailCall { .. } => "TailCall",
         Assert { .. } => "Assert",
         Yield { .. } => "Yield",
         GeneratorDrop => "GeneratorDrop",

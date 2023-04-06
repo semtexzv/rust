@@ -525,6 +525,10 @@ impl Direction for Forward {
                     );
                     propagate(target, exit_state);
                 }
+            },
+            TailCall { .. } => {
+
+                panic!("No idea how to implement this")
             }
 
             InlineAsm {

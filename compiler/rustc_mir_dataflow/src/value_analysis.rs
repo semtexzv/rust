@@ -228,6 +228,9 @@ pub trait ValueAnalysis<'tcx> {
             TerminatorKind::Call { .. } | TerminatorKind::InlineAsm { .. } => {
                 // Effect is applied by `handle_call_return`.
             }
+            TerminatorKind::TailCall { .. } => {
+                panic!()
+            }
             TerminatorKind::Drop { place, .. } => {
                 state.flood_with(place.as_ref(), self.map(), Self::Value::bottom());
             }
